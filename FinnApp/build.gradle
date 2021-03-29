@@ -6,6 +6,23 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "${project.name}.apk"
+        }
+    }
+
+    if (file("../test_sign_android.jks").exists()) {
+        signingConfigs {
+            release {
+                storeFile file('../test_sign_android.jks')
+                storePassword 'androidTls'
+                keyPassword 'androidTls'
+                keyAlias 'testKey'
+            }
+        }
+    }
+
     defaultConfig {
         applicationId "ru.finnapp"
         minSdkVersion 26
@@ -20,6 +37,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (file("../test_sign_android.jks").exists()) {
+                signingConfig signingConfigs.release
+            }
         }
     }
     compileOptions {
