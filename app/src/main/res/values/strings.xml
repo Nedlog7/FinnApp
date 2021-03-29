@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">FinnApp</string>
+
+    <string name="StocksTab">Stocks</string>
+    <string name="FavoriteTab">Favorite</string>
+    <string name="NoFilesFound">No results have been found</string>
+    <string name="SearchStock">Company name, ticker</string>
+    <string name="Search">Search</string>
+</resources>
