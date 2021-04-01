@@ -174,29 +174,17 @@ public class PlaceholderFragmentMain extends Fragment implements Constants {
 
                     isNetworkAvailable = true;
 
-                    stockInfoList.clear();
-                    symbolList.clear();
+                    if(!FinnApp.appInBackground && FinnApp.webSocketClient != null
+                            && !FinnApp.webSocketClient.getConnection().isOpen()) {
+                        FinnApp.webSocketClient = null;
+                        SocketLiveData socketLiveData = SocketLiveData.get();
+                        socketLiveData.connect();
+                    }
 
-                    activity.runOnUiThread(()-> {
-
-                        progressBar.setVisibility(View.VISIBLE);
-
-                        viewAdapter.setSymbolList(symbolList);
-                        viewAdapter.setStockInfoList(stockInfoList);
-
+                    if (stockInfoList.isEmpty()) {
                         RequestApi requestApi = new RequestApi(activity, viewAdapter);
                         requestApi.stockProfileRequest();
-
-                        if(!FinnApp.appInBackground && FinnApp.webSocketClient != null
-                                && !FinnApp.webSocketClient.getConnection().isOpen()) {
-                            FinnApp.webSocketClient = null;
-                            SocketLiveData socketLiveData = SocketLiveData.get();
-                            socketLiveData.connect();
-                        }
-
-                        progressBar.setVisibility(View.GONE);
-
-                    });
+                    }
 
                 }
             }
