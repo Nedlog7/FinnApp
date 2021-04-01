@@ -193,18 +193,26 @@ public class StockRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             tvName.setText(stockInfo.getName());
             tvPrice.setText(String.format("%s%.2f", "$", stockInfo.getCurrentPrice()));
 
-            float volatility = stockInfo.getCurrentPrice() - stockInfo.getClosePrice();
-            float volatilityPercent = volatility * 100 / stockInfo.getClosePrice();
-            String sign;
-            if (volatility < 0) {
-                sign = "-";
-                tvVolatility.setTextColor(Color.RED);
+            float volatilityPercent = 0;
+            float volatility = 0;
+            String sign = "";
+
+            if (stockInfo.getCurrentPrice() != 0) {
+                volatility = stockInfo.getCurrentPrice() - stockInfo.getClosePrice();
+                if (volatility < 0) {
+                    sign = "-";
+                    tvVolatility.setTextColor(Color.RED);
+                }
+                else if (volatility > 0) {
+                    sign = "+";
+                    tvVolatility.setTextColor(Color.GREEN);
+                }
+
+                volatility =  Math.abs(volatility);
+                volatilityPercent = volatility * 100 / stockInfo.getClosePrice();
             }
-            else {
-                sign = "+";
-                tvVolatility.setTextColor(Color.GREEN);
-            }
-            tvVolatility.setText(String.format("%s%.2f (%.2f%%)", sign + "$", Math.abs(volatility),
+
+            tvVolatility.setText(String.format("%s%.2f (%.2f%%)", sign + "$", volatility,
                     volatilityPercent));
 
         }

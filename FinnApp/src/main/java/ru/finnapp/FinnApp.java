@@ -34,7 +34,7 @@ public class FinnApp extends Application implements LifecycleObserver, Constants
         appInBackground = false;
 
         if(webSocketClient != null && !webSocketClient.getConnection().isOpen()) {
-            FinnApp.webSocketClient = null;
+            webSocketClient = null;
             SocketLiveData socketLiveData = SocketLiveData.get();
             socketLiveData.connect();
         }
