@@ -99,6 +99,7 @@ public class RequestApi implements Constants {
 
                 requestApi.stockProfile(symbol).observeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
+                        .retryWhen(throwableObservable -> throwableObservable.delay(1, TimeUnit.SECONDS))
                         .subscribe(new DisposableObserver<CompanyProfile2>() {
                             @Override
                             public void onNext(@NotNull CompanyProfile2 value) {
@@ -137,6 +138,7 @@ public class RequestApi implements Constants {
         IRequestApi requestApi = retrofit.create(IRequestApi.class);
         requestApi.quote(symbol).observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .retryWhen(throwableObservable -> throwableObservable.delay(1, TimeUnit.SECONDS))
                 .subscribe(new DefaultObserver<Quote>() {
                     @Override
                     public void onNext(@NonNull Quote quote) {

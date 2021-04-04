@@ -24,8 +24,13 @@ public interface Constants {
     String finnhubSocketUrl = "wss://ws.finnhub.io?token=" + token;
     String finnhubUrl = "https://finnhub.io/";
 
-    String[] tickerList = new String[]{"BA", "AAPL", "GOOGL",
-            "AMZN", "TWTR", "MSFT", "TSLA", "FB", "INTC"};
+    String[] tickerList = new String[]{
+            "BA", "AAPL", "GOOGL", "AMZN", "TWTR", "MSFT", "TSLA", "FB", "INTC", "ATVI", "MU",
+            "NFLX", "NVDA", "PFE", "T", "V", "ABBV", "BABA", "AAL", "BIDU", "BIIB", "BMY", "AVGO",
+            "EA", "FDX", "F", "GE", "GM", "NEM", "PYPL", "QCOM", "WMT", "JNJ", "IBM", "PG", "LOW",
+            "NEE", "TGT", "KO", "CVX", "ABT", "UBER", "CRM", "VTRS", "UNH", "HD", "GILD", "VZ",
+            "BKNG", "MRK", "ORCL", "HON", "LMT", "MRNA", "TTWO", "FCX", "HAL", "BKR", "TXN", "AMGN",
+            "DD", "M", "CMCSA", "EBAY", "CL", "AMAT"};
 
     int cacheSize = 10 * 1024 * 1024; // this is 10MB
 

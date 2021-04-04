@@ -56,7 +56,7 @@ public class SocketLiveData extends LiveData<CurrentPrice> implements Constants 
             @Override
             public void onClose(int code, String reason, boolean remote) {
                 Log.d(TAG, "onClose: " + reason);
-                if (code == 1006) {
+                if (code == 1006 || code == 429) {
                     FinnApp.webSocketClient = null;
                     instance.connect();
                 }

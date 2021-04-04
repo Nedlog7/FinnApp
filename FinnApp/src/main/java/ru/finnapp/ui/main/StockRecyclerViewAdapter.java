@@ -66,14 +66,16 @@ public class StockRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
     public void updateStock(String symbol, float closePrice, float currentPrice) {
 
-        int index = symbolList.indexOf(symbol);
-        StockInfo stockInfo = stockInfoList.get(index);
-        stockInfo.setClosePrice(closePrice);
-        stockInfo.setCurrentPrice(currentPrice);
+        if (symbolList.contains(symbol)) {
+            int index = symbolList.indexOf(symbol);
+            StockInfo stockInfo = stockInfoList.get(index);
+            stockInfo.setClosePrice(closePrice);
+            stockInfo.setCurrentPrice(currentPrice);
 
-        dbHelper.setClosePrice(symbol, closePrice);
+            dbHelper.setClosePrice(symbol, closePrice);
 
-        notifyItemChanged(index, stockInfo);
+            notifyItemChanged(index, stockInfo);
+        }
 
     }
 
@@ -97,11 +99,13 @@ public class StockRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
     public void updateFavoriteStock(StockInfo stock) {
 
-        int index = symbolList.indexOf(stock.getSymbol());
-        StockInfo stockInfo = stockInfoList.get(index);
-        stockInfo.setFavorite(stock.isFavorite());
+        if (symbolList.contains(stock.getSymbol())) {
+            int index = symbolList.indexOf(stock.getSymbol());
+            StockInfo stockInfo = stockInfoList.get(index);
+            stockInfo.setFavorite(stock.isFavorite());
 
-        notifyItemChanged(index, stockInfo);
+            notifyItemChanged(index, stockInfo);
+        }
 
     }
 
@@ -180,11 +184,15 @@ public class StockRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         private void bind(final StockInfo stockInfo) {
 
             String logoUrl = stockInfo.getLogoUrl();
-            if (logoUrl != null && !logoUrl.isEmpty())
+            if (logoUrl != null && !logoUrl.isEmpty()) {
                 Picasso.get()
-                    .load(logoUrl)
-                    .transform(new CircleTransform(50,0))
-                    .into(ivLogo);
+                        .load(logoUrl)
+                        .transform(new CircleTransform(50,0))
+                        .into(ivLogo);
+            }
+            else {
+                ivLogo.setImageResource(R.drawable.ic_pending);
+            }
 
             ivFavorite.setImageResource(stockInfo.isFavorite() ? R.drawable.ic_favorite
                     : R.drawable.ic_favorite_border);
@@ -209,7 +217,8 @@ public class StockRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                 }
 
                 volatility =  Math.abs(volatility);
-                volatilityPercent = volatility * 100 / stockInfo.getClosePrice();
+                if (volatility != 0 && stockInfo.getClosePrice() != 0)
+                    volatilityPercent = volatility * 100 / stockInfo.getClosePrice();
             }
 
             tvVolatility.setText(String.format("%s%.2f (%.2f%%)", sign + "$", volatility,
